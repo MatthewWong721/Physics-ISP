@@ -137,11 +137,33 @@ function collisionDetection(){
                     var rock2Angle = Math.atan((rock2.vy)/(rock2.vx));
                 }
                 var vNor1 = Math.cos(nor-rock1Angle)*rock1.v;
-                var vxNor1 = Math.cos(nor)*vNor1;
-                var vyNor1 = Math.sin(nor)*vNor1;
+                if(rock1.vx==0)
+                    var vxNor1 = 0;
+                else
+                    var vxNor1 = Math.cos(nor)*vNor1*rock1.vx/Math.abs(rock1.vx);
+                if(rock1.vy==0)
+                    var vyNor1=0;
+                else
+                    var vyNor1 = Math.sin(nor)*vNor1*rock1.vy/Math.abs(rock1.vy);
                 var vNor2 = Math.cos(nor-rock2Angle)*rock2.v;
-                var vxNor2 = Math.cos(nor)*vNor2;
-                var vyNor2 = Math.sin(nor)*vNor2;
+                if(rock2.vx==0)
+                    var vxNor2 = 0;
+                else
+                    var vxNor2 = Math.cos(nor)*vNor2*rock2.vx/Math.abs(rock2.vx);
+                if(rock2.vy==0)
+                    var vyNor2 = 0;
+                else
+                    var vyNor2 = Math.sin(nor)*vNor2*rock2.vy/Math.abs(rock2.vy);
+
+                console.log("nor "+nor)
+                console.log("rock1angle "+rock1Angle);
+                console.log("rock2angle "+rock2Angle);
+                console.log("vnor1 "+ vNor1);
+                console.log("vxnor1 "+vxNor1);
+                console.log("vynor1 "+vyNor1);
+                console.log("vnor2 "+ vNor2);
+                console.log("vxnor2 "+vxNor2);
+                console.log("vynor2 "+vyNor2);
                 
                 rock1.vx = rock1.vx-vxNor1+vxNor2;
                 rock1.vy = rock1.vy-vyNor1+vyNor2;
@@ -160,8 +182,6 @@ canvas.addEventListener("click", click, false)
 function click(e){
     var mouseX = e.clientX-canvas.offsetLeft;
     var mouseY = e.clientY;
-    console.log(mouseX)
-    console.log(mouseY);
     if(gameState==READY){
         if(mouseX>=113&&mouseX<138&&mouseY>=660&&mouseY<685){
             aimSpin=-1;
@@ -281,8 +301,6 @@ window.onload = function(){
         rocks[i].update();
         rocks[i].draw();
     }
-
-    console.log(gameState)
 
     if(rocks.length>1)
         collisionDetection();
